@@ -14,7 +14,7 @@
 
 ## Environments and Technologies Used ##
 
-- Microsoft Azure (Virtual Machines/Compute)
+- Microsoft Azure (Virtual Machines)
 - Remote Desktop
 - Active Directory Domain Services
 - PowerShell
@@ -26,22 +26,40 @@
 
 ## High-Level Deployment and Configuration Steps ##
 
-- Step 1
-- Step 2
-- Step 3
-- Step 4
+- :one: Install Active Directory Domain Services
+- :two: Deploying Active Directory ➡️ 3️⃣
+- :four: Create Users with PowerShell ➡️ 5️⃣
+- Group Policy and Managing Accounts
 ---
 
-<h2>Deployment and Configuration Steps</h2>
+## Deployment and Configuration Steps ##
 
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img alt="ADinstall" src="https://github.com/user-attachments/assets/7600bdf8-df2e-4276-ae3d-6de2dd5d3d68" /> <br />
 
-> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+:one: Install Active Directory Domain Services ⤵️
+> Promote as a Domain Controller (DC)
+>   - Setup a new forest as **talondomain.com**
+>   - Restart and log back into DC as user: **talondomain.com\talons**
 ---
 
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img alt="deploy2" src="https://github.com/user-attachments/assets/ec1f8d82-c316-4b01-bd66-254880c3d7ae" /> <br />
 
-> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+:two: Create a Domain Admin user within the Domain ⤵️
+> In Active Directory Users and Computers (ADUC):
+>  - Create an Organizational Unit (OU) called `_EMPLOYEES`
+>  - Create another new OU named `_ADMINS`
+>  - Create a new employee named `Jane Doe` with username: `jane_admin` 
+>  - Add **Jane Doe** user to the `Domain Admins` Secuirty Group
+>  - Logout of DC as **talondomain.com\talons**, Log back into DC as **talondomain.com\jane_admin** <br />
+
+<img src="https://github.com/user-attachments/assets/6f38000f-da1c-4062-92e1-c2d82ae84e91" alt="deploy3"/> <br />
+
+3️⃣ Join **client-1** to your Domain ⤵️ 
+> - From Azure Portal, set **client-1** DNS settings to DC's private IP address
+> - Login to **client-1** as local admin (ctalons) and join it to the domain
+> - Login to DC and verify if **client-1** shows in ADUC
+> - In ADUC, create a new OU named `_CLIENTS` and add **client-1** to it
+
 ---
 
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
